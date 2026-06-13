@@ -1,7 +1,8 @@
 from django.db import models
 
-from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Product(models.Model):
     name = models.CharField(max_length=100, verbose_name="Название продукта")
@@ -19,6 +20,8 @@ class Dish(models.Model):
     TYPE_CHOICES = [
         ('breakfast', 'Завтрак'),
         ('lunch', 'Обед'),
+        ('snack', 'Перекус'),
+        ('drink', 'Напиток'),
     ]
     name = models.CharField(max_length=100, verbose_name="Название блюда")
     dish_type = models.CharField(max_length=10, choices=TYPE_CHOICES, verbose_name="Тип приема пищи")
@@ -74,3 +77,20 @@ class PurchaseRequest(models.Model):
     class Meta:
         verbose_name = "Заявка на закупку"
         verbose_name_plural = "Заявки на закупки"
+
+class Profile(models.Model):
+    ROLE_CHOICES = [
+        ('student', 'Ученик'),
+        ('cook', 'Повар'),
+        ('admin_staff', 'Администратор столовой'),
+    ]
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='student', verbose_name="Роль")
+
+    def __str__(self):
+        return f"Профиль {self.user.username} ({self.get_role_display()})"
+
+    class Meta:
+        verbose_name = "Профиль пользователя"
+        verbose_name_plural = "Профили пользователей"
+
