@@ -1,0 +1,26 @@
+{% extends 'cafeteria/base.html' %}
+
+{% block content %}
+<h2>Новая заявка на закупку</h2>
+<div class="card mt-3">
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="product" class="form-label">Выберите продукт:</label>
+                <select name="product" id="product" class="form-select" required>
+                    {% for p in products %}
+                        <option value="{{ p.id }}">{{ p.name }} (остаток: {{ p.quantity }} {{ p.unit }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="quantity" class="form-label">Необходимое количество:</label>
+                <input type="number" name="quantity" id="quantity" class="form-control" min="1" step="0.1" required>
+            </div>
+            <button type="submit" class="btn btn-success">Отправить заявку</button>
+            <a href="{% url 'cook_products' %}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -32,7 +32,7 @@ class Command(BaseCommand):
             Product.objects.get_or_create(
                 name=name,
                 defaults={
-                    'quantity': round(random.uniform(10, 100), 2),
+                    'quantity': round(random.integer(10, 100), 2),
                     'unit': random.choice(['кг', 'л', 'шт'])
                 }
             )

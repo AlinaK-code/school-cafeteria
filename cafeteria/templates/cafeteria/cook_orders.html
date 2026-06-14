@@ -1,0 +1,49 @@
+{% extends 'cafeteria/base.html' %}
+
+{% block content %}
+<h2>Учет выданных завтраков и обедов</h2>
+<a href="{% url 'cook_dashboard' %}" class="btn btn-secondary mt-3">← Назад в меню</a>
+<div class="table-responsive mt-3">
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Ученик</th>
+                <th>Блюдо</th>
+                <th>Тип</th>
+                <th>Статус</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.student.username }}</td>
+                <td>{{ order.menu_item.dish.name }}</td>
+                <td>{{ order.menu_item.dish.get_dish_type_display }}</td>
+                <td>
+                    {% if order.is_issued %}
+                        <span class="badge bg-success">Выдано</span>
+                        <small class="text-muted d-block">{{ order.issued_at|date:"H:i" }}</small>
+                    {% else %}
+                        <span class="badge bg-secondary">Ожидает</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if not order.is_issued %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <button type="submit" class="btn btn-sm btn-primary">Выдать</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6" class="text-center">Нет активных заказов</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

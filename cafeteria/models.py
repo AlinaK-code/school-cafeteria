@@ -94,3 +94,14 @@ class Profile(models.Model):
         verbose_name = "Профиль пользователя"
         verbose_name_plural = "Профили пользователей"
 
+class DishStock(models.Model):
+    dish = models.ForeignKey(Dish, on_delete=models.CASCADE, verbose_name="Блюдо")
+    portions = models.IntegerField(default=0, verbose_name="Количество порций")
+    prepared_at = models.DateTimeField(auto_now_add=True, verbose_name="Время приготовления")
+
+    def __str__(self):
+        return f"{self.dish.name} ({self.portions} порц.)"
+
+    class Meta:
+        verbose_name = "Остаток готового блюда"
+        verbose_name_plural = "Остатки готовых блюд"

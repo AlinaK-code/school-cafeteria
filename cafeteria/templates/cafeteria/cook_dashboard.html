@@ -1,0 +1,45 @@
+{% extends 'cafeteria/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 mb-4">
+        <h2>Кабинет повара</h2>
+        <p class="lead">Добро пожаловать, {{ user.username }}! Выберите действие:</p>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Учет выдачи -->
+    <div class="col-md-4">
+        <div class="card h-100 border-primary">
+            <div class="card-body text-center">
+                <h5 class="card-title">Учет выдачи</h5>
+                <p class="card-text">Отмечайте выданные завтраки и обеды ученикам.</p>
+                <a href="{% url 'cook_orders' %}" class="btn btn-primary">Перейти к учету</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Остатки продуктов -->
+    <div class="col-md-4">
+        <div class="card h-100 border-success">
+            <div class="card-body text-center">
+                <h5 class="card-title">Остатки блюд и продуктов</h5>
+                <p class="card-text">Контролируйте наличие продуктов и готовых блюд.</p>
+                <a href="{% url 'cook_products' %}" class="btn btn-success">Посмотреть склад</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- заявки на закупку -->
+    <div class="col-md-4">
+        <div class="card h-100 border-warning">
+            <div class="card-body text-center">
+                <h5 class="card-title">Заявка на закупку</h5>
+                <p class="card-text">Закажите недостающие ингредиенты у администратора.</p>
+                <a href="{% url 'create_request' %}" class="btn btn-warning">Создать заявку</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
